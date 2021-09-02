@@ -21,6 +21,11 @@
 # print('{:.2F}'.format(time() - start))
 
 import asyncio
+from time import time
+
+
+def loader(url):
+    print('Load {}'.format(url))
 
 
 async def spider(site_name):
@@ -29,6 +34,8 @@ async def spider(site_name):
         print(site_name, page)
 
 
+start = time()
+
 spider = [
     asyncio.ensure_future(spider('Blog')),
     asyncio.ensure_future(spider('News')),
@@ -36,5 +43,9 @@ spider = [
 ]
 
 event_loop = asyncio.get_event_loop()
+event_loop.call_soon(loader, 'url1')
 event_loop.run_until_complete(asyncio.gather(*spider))
+event_loop.call_soon(loader, 'url2')
 event_loop.close()
+
+print(time() - start)
