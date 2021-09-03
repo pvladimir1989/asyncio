@@ -43,9 +43,11 @@ spider = [
 ]
 
 event_loop = asyncio.get_event_loop()
+now = event_loop.time()
 event_loop.call_soon(loader, 'url1')
+event_loop.call_at(now + 1.9, loader, 'url2')
 event_loop.run_until_complete(asyncio.gather(*spider))
-event_loop.call_soon(loader, 'url2')
+
 event_loop.close()
 
 print(time() - start)
