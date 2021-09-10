@@ -10,13 +10,14 @@ async def get_pages(site_name):
 
 async def get_page_data(site_name, page):
     await asyncio.sleep(1)
-    return "Data from page {} ({})".format(page,site_name)
+    return "Data from page {} ({})".format(page, site_name)
 
 
 async def spider(site_name):
-    for page in range(1, 4):
-        await asyncio.sleep(1)
-        print(site_name, page)
+    pages = await (get_pages(site_name))
+    for page in pages:
+        data = await get_page_data(site_name, page)
+        print(data)
 
 
 start = time()
@@ -28,11 +29,7 @@ spider = [
 ]
 
 event_loop = asyncio.get_event_loop()
-now = event_loop.time()
-event_loop.call_soon(loader, 'url1')
-event_loop.call_at(now + 1.9, loader, 'url2')
 event_loop.run_until_complete(asyncio.gather(*spider))
-
 event_loop.close()
 
 print(time() - start)
